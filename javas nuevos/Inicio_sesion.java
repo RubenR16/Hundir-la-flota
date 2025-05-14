@@ -94,7 +94,8 @@ public class Inicio_sesion extends JFrame {
 		JButton btnNewButton = new JButton("Registarse");
 		btnNewButton.setBounds(263, 261, 117, 21);
 		contentPane.add(btnNewButton);
-		
+
+		//BOTON INICIAR SESIÓN
 		JButton btnIniciarSesion = new JButton("Iniciar Sesion");
 		btnIniciarSesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -114,7 +115,10 @@ public class Inicio_sesion extends JFrame {
 					stmt.setString(1,textFieldUsuario.getText());
 					
 					ResultSet rs = stmt.executeQuery();
-					
+
+					//SI EXISTE EL USUARIO EN LA BBD EL BOOLEANO PASA A ESTAR EN TRUE,
+					//SI EXISTE COMPRUEBA SI LA CONTRASEÑA PROPORCIONADA EN EL TEXTFIELD 
+					//Y SI COINCIDE SE PONE A TRUE SU BOOLEANO 
 					if (rs.next()) {
 						existe=true;
 						
@@ -124,15 +128,15 @@ public class Inicio_sesion extends JFrame {
 							}	
 					}
 						
-					
+					//NO EXISTE EL USUARIO = ERROR
 					if(!existe) {
 					
 						JOptionPane.showMessageDialog(contentPane,"Error: Usuario no existente","Error",JOptionPane.ERROR_MESSAGE);
-					}else if(coincidepasswd){
+					}else if(coincidepasswd){ //SI EXISTE EL USUARIO COMPRUEBA QUE COINCIDA LA PASSWORD Y INICIA SESIÓN
 						
 						JOptionPane.showMessageDialog(contentPane,"Sesion iniciada","Message",JOptionPane.INFORMATION_MESSAGE);
 						
-					}else {
+					}else { // SI NO COICIDE LA PASSWORD SALTA MENSAJITO ERROR
 					
 						JOptionPane.showMessageDialog(contentPane,"Contraseña incorrecta","Error",JOptionPane.ERROR_MESSAGE);
 	
