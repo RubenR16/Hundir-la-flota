@@ -116,7 +116,7 @@ public class Inicio_sesion extends JFrame {
 					
 					ResultSet rs = stmt.executeQuery();
 
-					//SI EXISTE EL USUARIO EN LA BBD EL BOOLEANO PASA A ESTAR EN TRUE,
+					//SI EXISTE EL USUARIO EN LA BDD EL BOOLEANO PASA A ESTAR EN TRUE,
 					//SI EXISTE COMPRUEBA SI LA CONTRASEÑA PROPORCIONADA EN EL TEXTFIELD 
 					//Y SI COINCIDE SE PONE A TRUE SU BOOLEANO 
 					if (rs.next()) {
