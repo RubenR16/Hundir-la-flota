@@ -1,20 +1,36 @@
 package com.proyecto.hundir_la_flota;
 
 import java.awt.EventQueue;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Inicio_sesion extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textFieldCorreo;
+	private JTextField textFieldUsuario;
 	private JTextField textFieldContraseña;
+	private final String URL= "jdbc:mysql://localhost:33306/hundir_la_flota";
+	private final String USER="root";
+	private final String PASSWORD="alumnoalumno";
+	private static Connection connection;
+	private static PreparedStatement stmt;
+	private String usuario;
+	private String contr;
+
 
 	/**
 	 * Launch the application.
@@ -36,6 +52,15 @@ public class Inicio_sesion extends JFrame {
 	 * Create the frame.
 	 */
 	public Inicio_sesion() {
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection=DriverManager.getConnection(URL,USER,PASSWORD);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		setTitle("Iniciar sesion");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 855, 452);
@@ -45,16 +70,18 @@ public class Inicio_sesion extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		textFieldCorreo = new JTextField();
-		textFieldCorreo.setToolTipText("");
-		textFieldCorreo.setBounds(334, 163, 153, 19);
-		contentPane.add(textFieldCorreo);
-		textFieldCorreo.setColumns(10);
+		textFieldUsuario = new JTextField();
+		textFieldUsuario.setToolTipText("");
+		textFieldUsuario.setBounds(334, 163, 153, 19);
+		contentPane.add(textFieldUsuario);
+		textFieldUsuario.setColumns(10);
+		
 		
 		textFieldContraseña = new JTextField();
 		textFieldContraseña.setBounds(334, 215, 153, 19);
 		contentPane.add(textFieldContraseña);
 		textFieldContraseña.setColumns(10);
+		
 		
 		JLabel lblNewLabelUser = new JLabel("Usuario:");
 		lblNewLabelUser.setBounds(334, 142, 153, 13);
@@ -69,6 +96,55 @@ public class Inicio_sesion extends JFrame {
 		contentPane.add(btnNewButton);
 		
 		JButton btnIniciarSesion = new JButton("Iniciar Sesion");
+		btnIniciarSesion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				boolean existe = false;
+				boolean coincidepasswd = false;
+				
+				
+				
+				usuario = textFieldUsuario.getText();
+				contr = textFieldContraseña.getText();
+
+
+				try {
+					stmt = connection.prepareStatement("select * from usuarios where nombre_usuario = ?");
+					
+					stmt.setString(1,textFieldUsuario.getText());
+					
+					ResultSet rs = stmt.executeQuery();
+					
+					if (rs.next()) {
+						existe=true;
+						
+						if(contr.equals(rs.getString("password_usuario"))){
+								coincidepasswd=true;
+								
+							}	
+					}
+						
+					
+					if(!existe) {
+					
+						JOptionPane.showMessageDialog(contentPane,"Error: Usuario no existente","Error",JOptionPane.ERROR_MESSAGE);
+					}else if(coincidepasswd){
+						
+						JOptionPane.showMessageDialog(contentPane,"Sesion iniciada","Message",JOptionPane.INFORMATION_MESSAGE);
+						
+					}else {
+					
+						JOptionPane.showMessageDialog(contentPane,"Contraseña incorrecta","Error",JOptionPane.ERROR_MESSAGE);
+	
+					}
+					
+					
+					
+				}catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnIniciarSesion.setBounds(408, 261, 117, 21);
 		contentPane.add(btnIniciarSesion);
 	}
