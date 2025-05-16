@@ -13,13 +13,15 @@ import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 
 public class Menu_principal extends JFrame {
-
+	
+	private String nombreUsuario;
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
 	public Menu_principal(String nombreUsuario) {
-		super("Menu_principal");
+		this.nombreUsuario = nombreUsuario;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	
 
 		setBounds(100, 100, 770, 379);
 		contentPane = new JPanel();
@@ -48,9 +50,9 @@ public class Menu_principal extends JFrame {
 		btnNewButton_2.setBounds(288, 32, 172, 21);
 		contentPane.add(btnNewButton_2);
 		
-		JLabel lblNewLabel = new JLabel("Bienvenido ****");
-		lblNewLabel.setBounds(330, 7, 111, 13);
-		contentPane.add(lblNewLabel);
+		JLabel lblBienvenido = new JLabel("Bienvenido "+nombreUsuario);
+		lblBienvenido.setBounds(288, 7, 256, 13);
+		contentPane.add(lblBienvenido);
 		
 		JButton btnNewButton_3 = new JButton("Ranking");
 		btnNewButton_3.setBounds(288, 133, 172, 21);

@@ -71,14 +71,14 @@ public class Inicio_sesion extends JDialog {
 		                });
 			  
 			        } else {
-			            //System.exit(0); // No inició sesión → cerrar app
+			           // System.exit(0); // No inició sesión → cerrar app
 			        }
 					
 					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				});
+				});//
 			}
 		});
 	}
@@ -197,6 +197,7 @@ public class Inicio_sesion extends JDialog {
 				}catch (SQLException e1) {
 					e1.printStackTrace();
 				}
+				
 			}
 		});
 		btnIniciarSesion.setBounds(408, 261, 117, 21);

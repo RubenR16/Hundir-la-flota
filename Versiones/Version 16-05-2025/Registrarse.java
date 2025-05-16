@@ -33,22 +33,7 @@ public class Registrarse extends JDialog {
 	private JPasswordField passwordFieldConfirmar;
 	private Inicio_sesion inicioSesion;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Registrarse frame = new Registrarse(null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+	
 	/**
 	 * Create the frame.
 	 */
@@ -94,13 +79,6 @@ public class Registrarse extends JDialog {
 		lblNewLabel.setBounds(334, 171, 153, 13);
 		contentPane.add(lblNewLabel);
 
-
-
-		/*CONDICIONES:
-		 * - Si está vacío, no se puede registrar.
-		 * - Si el nombre ya existe NO se puede registrar. 
-		 * 
-		 */
 
 		JButton btnNewButton = new JButton("Confirmar");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -168,7 +146,9 @@ public class Registrarse extends JDialog {
 						inicioSesion.dispose();
 
 						Menu_principal menu = new Menu_principal(textFieldUsuario.getText());
+						JLabel lblBienvenido = new JLabel("Bienvenido"+usuario);
 						menu.setVisible(true);
+						
 						}
 					
 				} catch (SQLException e1) {					
