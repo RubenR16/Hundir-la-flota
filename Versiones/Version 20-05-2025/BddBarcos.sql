@@ -1,5 +1,6 @@
 create database hundir_la_flota;
 -- drop database hundir_la_flota;
+use hundir_la_flota;
 -- Crear tabla usuarios
 CREATE TABLE usuarios (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
