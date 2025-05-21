@@ -1,0 +1,35 @@
+{
+  "id_partida": "abc123",  // Referencia a la partida
+  "eventos": [
+    {
+      "tipo": "chat",
+      "hora": "2025-05-20T18:00:00Z",
+      "jugador": "Player1",
+      "mensaje": "¡Buena suerte!"
+    },
+    {
+      "tipo": "movimiento",
+      "hora": "2025-05-20T18:00:05Z",
+      "jugador": "Player2",
+      "casilla": "A6",
+      "resultado": "fallo",
+      "turno": 1,
+      "puntos": 0
+    },
+    {
+      "tipo": "chat",
+      "hora": "2025-05-20T18:00:07Z",
+      "jugador": "Player1",
+      "mensaje": "¡Casi le das!"
+    },
+    {
+      "tipo": "movimiento",
+      "hora": "2025-05-20T18:00:10Z",
+      "jugador": "Player1",
+      "casilla": "B3",
+      "resultado": "golpe",
+      "turno": 2,
+      "puntos": 10
+    }
+  ]
+}
