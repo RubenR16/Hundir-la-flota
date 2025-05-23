@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.Connection;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -100,6 +101,11 @@ public class Menu_principal extends JFrame {
 		JButton btnRank = new JButton("Ranking");
 		btnRank.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				ConexionMySQL c = new ConexionMySQL();
+		        Connection conn = c.getCon(); // o como sea tu método para obtener la conexión
+
+		        Rankings rankingWindow = new Rankings(conn);
+		        rankingWindow.setVisible(true);
 			}
 		});
 		btnRank.setBounds(288, 172, 172, 21);
