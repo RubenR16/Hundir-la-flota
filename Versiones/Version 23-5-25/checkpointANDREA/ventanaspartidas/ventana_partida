@@ -1,0 +1,118 @@
+package com.proyecto.hundir_la_flota;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.io.PrintWriter;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class Ventana_partida extends JFrame {
+
+    private static final long serialVersionUID = 1L;
+    private JPanel contentPane;
+    private JTextField textField;
+
+    /**
+     * Launch the application.
+     */
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    Ventana_partida frame = new Ventana_partida();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    /**
+     * Create the frame.
+     */
+    public Ventana_partida() {
+        setTitle("Partida");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 855, 525);
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
+
+        // Crear área de texto para mostrar los mensajes (Disparos y resultados)
+        JTextArea textArea = new JTextArea();
+        textArea.setFont(new Font("Arial", Font.PLAIN, 14));
+        textArea.setBounds(10, 354, 489, 113);
+        textArea.setEditable(false); // Hacer que el área de texto sea solo de lectura
+        contentPane.add(textArea);
+
+        // Crear panel para el tablero propio
+        JPanel panel1 = new JPanel();
+        panel1.setBounds(10, 20, 402, 297);
+        panel1.setLayout(new BorderLayout());
+        contentPane.add(panel1);
+
+        // Crear el tablero del jugador
+        TableroPanel tableroPropio = new TableroPanel();
+        panel1.add(tableroPropio, BorderLayout.CENTER);
+
+        // Crear panel para el tablero enemigo
+        JPanel panel2 = new JPanel();
+        panel2.setBounds(422, 20, 369, 297);
+        panel2.setLayout(new BorderLayout());
+        contentPane.add(panel2);
+
+        // Intentar conectar con el servidor y usar el PrintWriter real
+        try {
+            ClientePartida cliente = new ClientePartida();
+            cliente.conectarServidor("127.0.0.1", 12345); // Cambia IP o puerto si hace falta
+            PrintWriter out = cliente.getOut();
+
+            TableroEnemigoPanel tableroEnemigo = new TableroEnemigoPanel(out, textArea);
+            panel2.add(tableroEnemigo, BorderLayout.CENTER);
+
+        } catch (Exception e) {
+            textArea.append("Error al conectar con el servidor: " + e.getMessage() + "\n");
+            e.printStackTrace();
+        }
+
+        // Campo de texto para escribir mensajes
+        textField = new JTextField();
+        textField.setBounds(509, 446, 202, 21);
+        contentPane.add(textField);
+        textField.setColumns(10);
+
+        // Botón de enviar (puedes adaptarlo a lo que necesites enviar)
+        JButton btnEnviar = new JButton("Enviar");
+        btnEnviar.setFont(new Font("Arial", Font.BOLD, 12));
+        btnEnviar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String mensaje = textField.getText();
+                textArea.append("Mensaje enviado: " + mensaje + "\n");
+                textField.setText("");
+            }
+        });
+        btnEnviar.setBounds(721, 446, 71, 21);
+        contentPane.add(btnEnviar);
+
+        // Etiquetas
+        JLabel lblCampoAliado = new JLabel("Campo aliado");
+        lblCampoAliado.setFont(new Font("Arial", Font.BOLD, 12));
+        lblCampoAliado.setBounds(180, 327, 133, 13);
+        contentPane.add(lblCampoAliado);
+
+        JLabel lblCampoEnemigo = new JLabel("Campo enemigo");
+        lblCampoEnemigo.setFont(new Font("Arial", Font.BOLD, 12));
+        lblCampoEnemigo.setBounds(574, 327, 125, 13);
+        contentPane.add(lblCampoEnemigo);
+    }
+}
