@@ -9,7 +9,7 @@ public class JuegoFrame extends JFrame {
 
 	public JuegoFrame() {
 		setTitle("Hundir la Flota - Colocación de Barcos");
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLayout(new BorderLayout());
 
 		// Crear el panel del tablero donde se colocan los barcos
