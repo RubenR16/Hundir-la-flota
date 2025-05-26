@@ -1,1 +1,88 @@
+package com.proyecto.hundir_la_flota;
+
+import java.io.*;
+import java.net.*;
+
+public class ClientePartida {
+    private Socket socket;
+    private BufferedReader in;
+    private PrintWriter out;
+    private TableroEnemigoPanel tableroEnemigo;
+
+    public void conectarServidor(String ip, int puerto) throws IOException {
+        try {
+            socket = new Socket(ip, puerto);  // Intentamos conectar con el servidor
+            System.out.println("Conectado a servidor en " + ip + ":" + puerto);
+
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            out = new PrintWriter(socket.getOutputStream(), true);
+
+            String mensaje = in.readLine();  // Leemos el primer mensaje del servidor
+            System.out.println("Servidor dice: " + mensaje);
+
+            out.println("LISTO_PARA_JUGAR");  // Enviamos mensaje de que estamos listos para jugar
+
+            // Empezar a escuchar al servidor
+            escucharServidor();
+        } catch (IOException e) {
+            System.err.println("Error al intentar conectar con el servidor: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    // Llamado desde TableroEnemigoPanel cuando haces clic para disparar
+    public void enviarDisparo(int fila, int columna) {
+        out.println("DISPARO " + fila + " " + columna);  // Enviamos el disparo al servidor
+    }
+
+    // Escucha mensajes como "TOCADO 3 5" o "AGUA 2 6"
+    private void escucharServidor() {
+        new Thread(() -> {
+            String linea;
+            try {
+                while ((linea = in.readLine()) != null) {
+                    System.out.println("Recibido del servidor: " + linea);
+                    if (linea.startsWith("TOCADO") || linea.startsWith("AGUA")) {
+                        String[] partes = linea.split(" ");
+                        int fila = Integer.parseInt(partes[1]);
+                        int col = Integer.parseInt(partes[2]);
+                        if (tableroEnemigo != null) {
+                            tableroEnemigo.marcarRespuesta(fila, col, partes[0]);
+                        }
+                        
+                        if (linea.equals("FIN_TURNO")) {
+                            if (tableroEnemigo != null) {
+                                tableroEnemigo.reiniciarTurno(); // Reactiva los disparos
+                            }
+                        }
+                        
+                        
+                    }
+                }
+            } catch (IOException e) {
+                System.err.println("Error al escuchar del servidor: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    public void cerrar() throws IOException {
+        in.close();
+        out.close();
+        socket.close();
+    }
+
+    // Lo llamas desde Ventana_partida para vincular el tablero
+    public void setTableroEnemigo(TableroEnemigoPanel panel) {
+        this.tableroEnemigo = panel;
+    }
+
+    public PrintWriter getOut() {
+        return out;
+    }
+
+    public BufferedReader getIn() {
+        return in;
+    }
+}
 
