@@ -1,0 +1,99 @@
+package com.proyecto.hundir_la_flota;
+
+import java.io.*;
+import java.net.*;
+
+public class ServidorPartida {
+    private ServerSocket serverSocket;
+    private Socket jugador1Socket;
+    private Socket jugador2Socket;
+    private BufferedReader in1;
+    private PrintWriter out1;
+    private BufferedReader in2;
+    private PrintWriter out2;
+    
+
+    private boolean turnoJugador1 = true; // Control de turnos
+
+    public void iniciarServidor(int puerto) throws IOException {
+        serverSocket = new ServerSocket(puerto);
+        System.out.println("Servidor esperando conexión en el puerto " + puerto + "...");
+
+        // Esperar jugador 1
+        jugador1Socket = serverSocket.accept();
+        in1 = new BufferedReader(new InputStreamReader(jugador1Socket.getInputStream()));
+        out1 = new PrintWriter(jugador1Socket.getOutputStream(), true);
+        out1.println("BIENVENIDO_JUGADOR 1");
+
+        // Esperar jugador 2
+        jugador2Socket = serverSocket.accept();
+        in2 = new BufferedReader(new InputStreamReader(jugador2Socket.getInputStream()));
+        out2 = new PrintWriter(jugador2Socket.getOutputStream(), true);
+        out2.println("BIENVENIDO_JUGADOR 2");
+
+        System.out.println("¡Ambos jugadores conectados! Iniciando partida...");
+
+        // Enviar mensaje inicial de turno
+        out1.println("TU_TURNO");
+        out2.println("ESPERA_TURNO");
+
+        // Escuchar a ambos jugadores en hilos separados
+        new Thread(() -> escucharJugador(in1, out1, out2, true)).start();  // Jugador 1
+        new Thread(() -> escucharJugador(in2, out2, out1, false)).start(); // Jugador 2
+    }
+
+    private synchronized void escucharJugador(BufferedReader in, PrintWriter outPropio, PrintWriter outEnemigo, boolean esJugador1) {
+        String mensaje;
+        try {
+            while ((mensaje = in.readLine()) != null) {
+                System.out.println("Mensaje recibido del jugador " + (esJugador1 ? "1" : "2") + ": " + mensaje);
+                
+
+                if (mensaje.startsWith("DISPARO")) {
+                    if ((esJugador1 && turnoJugador1) || (!esJugador1 && !turnoJugador1)) {
+                        String[] partes = mensaje.split(" ");
+                        int fila = Integer.parseInt(partes[1]);
+                        int columna = Integer.parseInt(partes[2]);
+
+                        // Simulación del resultado (lógica real se puede añadir luego)
+                        String resultado = Math.random() < 0.5 ? "TOCADO" : "AGUA";
+
+                        // Enviar resultado a ambos jugadores
+                        outEnemigo.println(resultado + " " + fila + " " + columna);
+                        outPropio.println(resultado + " " + fila + " " + columna);
+                        outPropio.println("FIN_TURNO");
+
+                        // Cambiar turno
+                        turnoJugador1 = !turnoJugador1;
+
+                        // Avisar al otro jugador que ahora le toca
+                        if (turnoJugador1) {
+                            out1.println("TU_TURNO");
+                            out2.println("ESPERA_TURNO");
+                        } else {
+                            out1.println("ESPERA_TURNO");
+                            out2.println("TU_TURNO");
+                        }
+                    } else {
+                        outPropio.println("NO_ES_TU_TURNO");
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error al escuchar al jugador " + (esJugador1 ? "1" : "2") + ": " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void cerrar() throws IOException {
+        if (in1 != null) in1.close();
+        if (out1 != null) out1.close();
+        if (jugador1Socket != null) jugador1Socket.close();
+
+        if (in2 != null) in2.close();
+        if (out2 != null) out2.close();
+        if (jugador2Socket != null) jugador2Socket.close();
+
+        if (serverSocket != null) serverSocket.close();
+    }
+}
