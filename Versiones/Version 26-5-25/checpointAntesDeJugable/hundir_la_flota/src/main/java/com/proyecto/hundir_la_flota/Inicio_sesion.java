@@ -24,7 +24,6 @@ import javax.swing.JPasswordField;
 
 public class Inicio_sesion extends JDialog {
 
-	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textFieldUsuario;
 	private static Connection connection;

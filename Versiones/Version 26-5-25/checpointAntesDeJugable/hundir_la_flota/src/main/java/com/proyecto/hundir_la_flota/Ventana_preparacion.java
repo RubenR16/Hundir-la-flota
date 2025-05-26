@@ -18,7 +18,6 @@ import java.awt.event.ActionEvent;
 
 public class Ventana_preparacion extends JFrame {
 
-	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
 	/**

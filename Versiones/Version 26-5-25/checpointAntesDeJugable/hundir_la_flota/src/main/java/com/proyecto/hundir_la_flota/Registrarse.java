@@ -21,7 +21,6 @@ import javax.swing.JPasswordField;
 
 public class Registrarse extends JDialog {
 
-	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textFieldUsuario;
 

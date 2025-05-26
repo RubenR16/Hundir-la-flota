@@ -8,9 +8,9 @@ import java.sql.SQLException;
 		
 	private static Connection con;
 	
-	private final String URL= "jdbc:mysql://localhost:33306/hundir_la_flota";
+	private final String URL= "jdbc:mysql://bddbarquitos.ccrnujijmw1q.us-east-1.rds.amazonaws.com:3306/hundir_la_flota";
 	private final String USER="root";
-	private final String PASSWORD="alumnoalumno";
+	private final String PASSWORD="barquitos";
 	
 	public ConexionMySQL(){
 		
