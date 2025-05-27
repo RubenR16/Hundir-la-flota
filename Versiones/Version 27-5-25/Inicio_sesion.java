@@ -148,7 +148,7 @@ public class Inicio_sesion extends JDialog {
 								
 								boolean estaBaneado = rs.getBoolean("baneado");
 			                    if (estaBaneado) {
-			                        JOptionPane.showMessageDialog(contentPane, " Usuario baneado. No puedes iniciar sesión.","BANEADO >:(",JOptionPane.ERROR_MESSAGE);
+			                        JOptionPane.showMessageDialog(contentPane, " Usuario baneado. No puedes iniciar sesión.","BANEADO",JOptionPane.ERROR_MESSAGE);
 			                        return;
 			                    }
 								
