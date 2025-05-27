@@ -72,7 +72,7 @@ public class Rankings extends JFrame {
 
     public List<UsuarioRanking> obtenerTop10Ranking() {
         List<UsuarioRanking> top10 = new ArrayList<>();
-        String sql = "SELECT nombre_usuario, puntos_totales FROM usuarios ORDER BY puntos_totales DESC LIMIT 10";
+        String sql = "SELECT nombre_usuario, puntos_totales FROM usuarios where baneado = 0 ORDER BY puntos_totales DESC LIMIT 10";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
