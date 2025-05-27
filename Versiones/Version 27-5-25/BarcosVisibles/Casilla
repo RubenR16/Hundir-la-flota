@@ -1,0 +1,122 @@
+package com.proyecto.hundir_la_flota;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class Casilla extends JPanel {
+    private final int fila, columna;
+    private boolean tieneBarco = false;
+    private boolean esPreview = false;
+    private boolean disparada = false;
+    private Color colorOriginal;
+    
+    public Casilla(int fila, int columna) {
+        this.fila = fila;
+        this.columna = columna;
+        this.colorOriginal = Color.CYAN;
+        setPreferredSize(new Dimension(30, 30)); // Tamaño fijo para las casillas
+        setBackground(Color.CYAN); // Color de mar
+        setBorder(BorderFactory.createLineBorder(Color.BLACK)); // Bordes de casilla
+        setLayout(new BorderLayout()); // Para poder agregar labels encima
+    }
+    
+    public int getFila() { return fila; }
+    public int getColumna() { return columna; }
+    public boolean tieneBarco() { return tieneBarco; }
+    public boolean estaDisparada() { return disparada; }
+    
+    // Colocar barco (solo cambia color si no tiene barco previamente)
+    public void colocarBarco(Color color) {
+        if (!tieneBarco) {
+            tieneBarco = true;
+            colorOriginal = color;
+            setBackground(color); // Cambia el color para indicar barco colocado
+        }
+    }
+    
+    // Cambiar el color para vista previa (si la casilla no tiene barco)
+    public void setPreview(boolean preview) {
+        if (!tieneBarco && !disparada) {
+            esPreview = preview;
+            setBackground(preview ? Color.LIGHT_GRAY : Color.CYAN); // Indica vista previa
+        }
+    }
+    
+    // Métodos para marcar las casillas como "tocadas" o "agua"
+    public void marcarTocado() {
+        disparada = true;
+        setBackground(Color.RED); // Marca como tocado (rojo)
+        
+        // Agregar una X visual
+        removeAll();
+        JLabel label = new JLabel("X", JLabel.CENTER);
+        label.setForeground(Color.WHITE);
+        label.setFont(new Font("Arial", Font.BOLD, 18));
+        add(label, BorderLayout.CENTER);
+        revalidate();
+        repaint();
+    }
+
+    // Método especial para marcar un barco como tocado pero manteniendo visible que era un barco
+    public void marcarTocadoConBarco() {
+        disparada = true;
+        // Mantener el color original del barco pero con un borde rojo grueso para indicar que fue tocado
+        setBorder(BorderFactory.createLineBorder(Color.RED, 3));
+
+        // Agregar una X roja encima
+        removeAll();
+        JLabel label = new JLabel("X", JLabel.CENTER);
+        label.setForeground(Color.RED);
+        label.setFont(new Font("Arial", Font.BOLD, 20));
+        add(label, BorderLayout.CENTER);
+        revalidate();
+        repaint();
+    }
+    
+    public void marcarAgua() {
+        disparada = true;
+        setBackground(Color.BLUE); // Marca como agua (azul)
+        
+        // Agregar un punto visual
+        removeAll();
+        JLabel label = new JLabel("•", JLabel.CENTER);
+        label.setForeground(Color.WHITE);
+        label.setFont(new Font("Arial", Font.BOLD, 16));
+        add(label, BorderLayout.CENTER);
+        revalidate();
+        repaint();
+    }
+    
+    // Método para marcar un barco como hundido (color diferente)
+    public void marcarHundido() {
+        disparada = true;
+        // Mantener el color del barco pero con borde negro grueso
+        setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
+        
+        // Agregar símbolo especial para hundido
+        removeAll();
+        JLabel label = new JLabel("†", JLabel.CENTER);
+        label.setForeground(Color.BLACK);
+        label.setFont(new Font("Arial", Font.BOLD, 24));
+        add(label, BorderLayout.CENTER);
+        revalidate();
+        repaint();
+    }
+    
+    // Resetear casilla (útil para reiniciar juego)
+    public void resetear() {
+        tieneBarco = false;
+        disparada = false;
+        esPreview = false;
+        colorOriginal = Color.CYAN;
+        setBackground(Color.CYAN);
+        removeAll();
+        revalidate();
+        repaint();
+    }
+    
+    // Obtener el color original del barco (útil para lógica del juego)
+    public Color getColorOriginal() {
+        return colorOriginal;
+    }
+}
