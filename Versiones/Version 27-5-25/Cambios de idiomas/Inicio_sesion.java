@@ -37,7 +37,7 @@ public class Inicio_sesion extends JDialog {
 	private JButton submitButton;
     private JMenuBar menuBar;
     private JLabel lblUsuario;
-    private JLabel lblContraseña;
+    private JLabel lblContrasenya;
     private JButton btnRegistrarse;
     private JButton btnIniciarSesion;
     private JMenuBar menuBar_1;
@@ -63,7 +63,7 @@ public class Inicio_sesion extends JDialog {
 	private void switchLanguage(Locale locale) {
 	        Messages.loadLocale(locale);
 	        lblUsuario.setText(Messages.labels().getString("label.lblUsuario"));
-	        lblContraseña.setText(Messages.labels().getString("label.lblContraseña"));
+	        lblContrasenya.setText(Messages.labels().getString("label.lblContrasenya"));
 	        btnRegistrarse.setText(Messages.labels().getString("button.btnRegistrarse"));
 	        btnIniciarSesion.setText(Messages.labels().getString("button.btnIniciarSesion"));
 	        MenuIdiomas.setText(Messages.labels().getString("label.MenuIdiomas"));
@@ -124,9 +124,9 @@ public class Inicio_sesion extends JDialog {
 		lblUsuario.setBounds(334, 142, 153, 13);
 		contentPane.add(lblUsuario);
 		
-		lblContraseña = new JLabel("Contraseña:");
-		lblContraseña.setBounds(334, 192, 88, 13);
-		contentPane.add(lblContraseña);
+		lblContrasenya = new JLabel("Contraseña:");
+		lblContrasenya.setBounds(334, 192, 88, 13);
+		contentPane.add(lblContrasenya);
 		
 		btnRegistrarse = new JButton("Registarse");
 		btnRegistrarse.addActionListener(new ActionListener() {
