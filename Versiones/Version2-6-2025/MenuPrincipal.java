@@ -1,9 +1,7 @@
 package com.proyecto.hundir_la_flota;
 
 import java.awt.EventQueue;
-import javax.swing.ImageIcon;
 import javax.swing.BorderFactory;
-import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -12,134 +10,173 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
+import messages.Messages;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JTextField;
 
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.io.PrintStream;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.sql.Connection;
+import java.util.Locale;
 import java.awt.event.ActionEvent;
 
 public class Menu_principal extends JFrame {
 
-	private String nombreUsuario;
-	private JPanel contentPane;
-	private final static int PORT = 5005;
-	ServerSocket server;
-	Socket client ;
-	Socket socket ;
-	private final static String SERVER = "";
-	PrintStream output;
+    private String nombreUsuario;
+    private JPanel contentPane;
+    private final static int PORT = 5005;
 
-	public Menu_principal(String nombreUsuario) {
-		
-		setTitle("Menu Principal");
-		this.nombreUsuario = nombreUsuario;
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    private JButton btnReanudar;
+    private JButton btnBPartida;
+    private JButton btnCPartida;
+    private JButton btnRank;
+    private JButton btnStats;
+    private JLabel lblBienvenido;
 
-		setBounds(100, 100, 770, 379);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    private Locale currentLocale;
 
-		setContentPane(contentPane);
+    public Menu_principal(String nombreUsuario, Locale locale) {
+        this.nombreUsuario = nombreUsuario;
+        this.currentLocale = locale;
 
-		JButton btnStats = new JButton("Stats personales");
-		btnStats.setBounds(288, 139, 172, 21);
-		btnStats.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				Estadisticas_personales JFrame = new Estadisticas_personales(nombreUsuario); 
-				JFrame.setVisible(true);
-				
-			}
-		});
-		contentPane.setLayout(null);
+        setTitle("Menu Principal");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 770, 379);
 
-		JButton btnReanudar = new JButton("Reanudar partida");
-		btnReanudar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnReanudar.setBounds(288, 106, 172, 21);
-		contentPane.add(btnReanudar);
-		contentPane.add(btnStats);
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        contentPane.setLayout(null);
+        setContentPane(contentPane);
 
-		JButton btnBPartida = new JButton("Buscar partida");
-		btnBPartida.addActionListener(e -> {
-		    String ip = JOptionPane.showInputDialog("Introduce la IP del servidor:");
-		    if (ip != null && !ip.trim().isEmpty()) {
-		        new Thread(() -> {
-		            try {
-		                ClientePartida cliente = new ClientePartida();
-		                cliente.conectarServidor(ip, PORT);
-		                SwingUtilities.invokeLater(() -> new JuegoFrame(null, cliente, false, nombreUsuario));
-		            } catch (IOException ex) {
-		                ex.printStackTrace();
-		                JOptionPane.showMessageDialog(null, "Error al unirse a la partida: " + ex.getMessage());
-		            }
-		        }).start();
-		    }
-		});
-		btnBPartida.setBounds(288, 73, 172, 21);
-		contentPane.add(btnBPartida);
+        // Botón Stats personales
+        btnStats = new JButton();
+        btnStats.setBounds(288, 139, 172, 21);
+        btnStats.addActionListener(e -> {
+            Estadisticas_personales statsWindow = new Estadisticas_personales(nombreUsuario, currentLocale);
+            statsWindow.setVisible(true);
+        });
+        contentPane.add(btnStats);
 
-		JLabel lblBienvenido = new JLabel("Bienvenido "+nombreUsuario);
-		lblBienvenido.setBounds(288, 7, 256, 13);
-		contentPane.add(lblBienvenido);
+        // Botón Reanudar
+        btnReanudar = new JButton();
+        btnReanudar.setBounds(288, 106, 172, 21);
+        btnReanudar.addActionListener(e -> {
+            // Implementar acción de reanudar partida
+        });
+        contentPane.add(btnReanudar);
 
-		JButton btnRank = new JButton("Ranking");
-		btnRank.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ConexionMySQL c = new ConexionMySQL();
-		        Connection conn = c.getCon(); // o como sea tu método para obtener la conexión
+        // Botón Buscar partida (con diálogo IP)
+        btnBPartida = new JButton();
+        btnBPartida.setBounds(288, 73, 172, 21);
+        btnBPartida.addActionListener(e -> {
+            JTextField ipField = new JTextField();
+            Object[] message = {
+                Messages.labels().getString("dialog.introduceIP"), ipField
+            };
+            Object[] options = {
+                Messages.labels().getString("button.aceptar"),
+                Messages.labels().getString("button.cancelar")
+            };
 
-		        Rankings rankingWindow = new Rankings(conn);
-		        rankingWindow.setVisible(true);
-			}
-		});
-		btnRank.setBounds(288, 172, 172, 21);
-		contentPane.add(btnRank);
+            int option = JOptionPane.showOptionDialog(
+                null,
+                message,
+                Messages.labels().getString("button.btnBPartida"),
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]
+            );
 
-		JButton btnCPartida = new JButton("Crear partida");
-		btnCPartida.addActionListener(e -> {
-		    JDialog ventanaEsperando = new JDialog();
-		    ventanaEsperando.setTitle("Esperando jugadores...");
+            if (option == JOptionPane.YES_OPTION) {
+                String ip = ipField.getText();
+                if (ip != null && !ip.trim().isEmpty()) {
+                    new Thread(() -> {
+                        try {
+                            ClientePartida cliente = new ClientePartida();
+                            cliente.conectarServidor(ip, PORT);
+                            SwingUtilities.invokeLater(() -> new JuegoFrame(null, cliente, false, nombreUsuario));
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                            JOptionPane.showMessageDialog(null,
+                                Messages.labels().getString("error.unirsePartida") + ": " + ex.getMessage());
+                        }
+                    }).start();
+                }
+            }
+        });
+        contentPane.add(btnBPartida);
 
-		    String mensaje = "<html><h3>Tu IP es: " + VerIP.miIP() + "</h3><p>Esperando que se conecte un jugador...</p></html>";
-		    JLabel contenido = new JLabel(mensaje, JLabel.CENTER);
-		    contenido.setBorder(BorderFactory.createEmptyBorder(15, 40, 15, 40));
+        // Label Bienvenido
+        lblBienvenido = new JLabel();
+        lblBienvenido.setBounds(288, 7, 300, 13);
+        contentPane.add(lblBienvenido);
 
-		    ventanaEsperando.getContentPane().add(contenido);
-		    ventanaEsperando.pack();
-		    ventanaEsperando.setLocationRelativeTo(contentPane);
-		    ventanaEsperando.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		    ventanaEsperando.setModal(false);
-		    ventanaEsperando.setVisible(true);
+        // Botón Ranking
+        btnRank = new JButton();
+        btnRank.setBounds(288, 172, 172, 21);
+        btnRank.addActionListener(e -> {
+            ConexionMySQL conexion = new ConexionMySQL();
+            Connection conn = conexion.getCon();
 
-		    new Thread(() -> {
-		        try {
-		            ServidorPartida servidor = new ServidorPartida();
-		            servidor.iniciarServidor(PORT);
+            Rankings rankingWindow = new Rankings(conn);
+            rankingWindow.setVisible(true);
+        });
+        contentPane.add(btnRank);
 
-		            SwingUtilities.invokeLater(() -> {
-		                ventanaEsperando.dispose();
-		                new JuegoFrame(servidor, null, true, nombreUsuario);
-		            });
+        // Botón Crear partida
+        btnCPartida = new JButton();
+        btnCPartida.setBounds(288, 40, 172, 21);
+        btnCPartida.addActionListener(e -> {
+            JDialog waitingDialog = new JDialog();
+            waitingDialog.setTitle(Messages.labels().getString("dialog.esperandoTitulo"));
 
-		        } catch (IOException ex) {
-		            ex.printStackTrace();
-		            SwingUtilities.invokeLater(() -> {
-		                ventanaEsperando.dispose();
-		                JOptionPane.showMessageDialog(null, "Error al crear la partida.");
-		            });
-		        }
-		    }).start();
-		});
+            String message = "<html><h3>" + Messages.labels().getString("dialog.tuIP") + ": " + VerIP.miIP() + "</h3><p>" +
+                             Messages.labels().getString("dialog.esperandoMensaje") + "</p></html>";
+            JLabel contentLabel = new JLabel(message, JLabel.CENTER);
+            contentLabel.setBorder(BorderFactory.createEmptyBorder(15, 40, 15, 40));
 
-		btnCPartida.setBounds(288, 40, 172, 21);
-		contentPane.add(btnCPartida);
-	}
+            waitingDialog.getContentPane().add(contentLabel);
+            waitingDialog.pack();
+            waitingDialog.setLocationRelativeTo(contentPane);
+            waitingDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+            waitingDialog.setModal(false);
+            waitingDialog.setVisible(true);
+
+            new Thread(() -> {
+                try {
+                    ServidorPartida servidor = new ServidorPartida();
+                    servidor.iniciarServidor(PORT);
+
+                    SwingUtilities.invokeLater(() -> {
+                        waitingDialog.dispose();
+                        new JuegoFrame(servidor, null, true, nombreUsuario);
+                    });
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    SwingUtilities.invokeLater(() -> {
+                        waitingDialog.dispose();
+                        JOptionPane.showMessageDialog(null, Messages.labels().getString("error.crearPartida"));
+                    });
+                }
+            }).start();
+        });
+        contentPane.add(btnCPartida);
+
+        // Finalmente, cargar los textos en el idioma actual
+        switchLanguage(currentLocale);
+    }
+
+    private void switchLanguage(Locale locale) {
+        Messages.loadLocale(locale);
+        btnStats.setText(Messages.labels().getString("button.btnStats"));
+        btnReanudar.setText(Messages.labels().getString("button.btnReanudar"));
+        btnBPartida.setText(Messages.labels().getString("button.btnBPartida"));
+        btnCPartida.setText(Messages.labels().getString("button.btnCPartida"));
+        btnRank.setText(Messages.labels().getString("button.btnRank"));
+        lblBienvenido.setText(Messages.labels().getString("label.lblBienvenido") + " " + nombreUsuario);
+    }
 }
