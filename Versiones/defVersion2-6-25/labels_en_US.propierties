@@ -35,3 +35,11 @@ label.lblPartidasJugadas=Played matches
 label.lblBarcosHundidos=Destroyed ships
 label.lblPuntos=Total points
 label.lblCasillasAgua=Water hits
+
+------------------------------------------
+RANKING:
+
+label.lblRanking=RANKING
+label.lblPosicion=Position
+label.lblUsuario=User
+label.lblPuntuacion=Score
