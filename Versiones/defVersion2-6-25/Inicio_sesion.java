@@ -43,8 +43,6 @@ public class Inicio_sesion extends JDialog {
     private JMenuBar menuBar_1;
     private JMenu MenuIdiomas;
     private Locale currentLocale = new Locale("es", "ES"); // Español por defecto
-    private JMenuItem MIEspañol;
-    private JMenuItem MIIngles;
 
 
 
@@ -72,8 +70,6 @@ public class Inicio_sesion extends JDialog {
 	        btnRegistrarse.setText(Messages.labels().getString("button.btnRegistrarse"));
 	        btnIniciarSesion.setText(Messages.labels().getString("button.btnIniciarSesion"));
 	        MenuIdiomas.setText(Messages.labels().getString("label.MenuIdiomas"));
-	        MIEspañol.setText(Messages.labels().getString("menuItem.espanyol"));
-	        MIIngles.setText(Messages.labels().getString("menuItem.ingles"));
 	    }
 
 	 
@@ -83,7 +79,7 @@ public class Inicio_sesion extends JDialog {
 	 */
 	public Inicio_sesion(JFrame Menu_principal) {
 		
-		setTitle("Iniciar Sesión");
+		setTitle(Messages.labels().getString("label.TituloIniciarSesion"));
 		
 		ConexionMySQL c = new ConexionMySQL();
 		
@@ -98,11 +94,11 @@ public class Inicio_sesion extends JDialog {
 		MenuIdiomas = new JMenu("Idiomas");
 		menuBar_1.add(MenuIdiomas);
 		
-		MIEspañol = new JMenuItem("Español");
+		JMenuItem MIEspañol = new JMenuItem("Español");
 		MIEspañol.addActionListener(e -> switchLanguage(new Locale("es", "ES")));
 		
 		
-		MIIngles = new JMenuItem("Inglés");
+		JMenuItem MIIngles = new JMenuItem("Ingles");
 		
 		MIIngles.addActionListener(e -> switchLanguage(new Locale("en", "US")));
 		

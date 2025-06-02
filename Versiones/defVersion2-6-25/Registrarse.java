@@ -68,7 +68,7 @@ public class Registrarse extends JDialog {
 		ConexionMySQL c = new ConexionMySQL();
 		con= c.getCon();		
 		
-		setTitle("Registrarse");
+		setTitle(Messages.labels().getString("label.TituloRegistrarse"));
 		setBounds(100, 100, 830, 482);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

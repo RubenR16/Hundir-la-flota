@@ -41,7 +41,7 @@ public class Menu_principal extends JFrame {
         this.nombreUsuario = nombreUsuario;
         this.currentLocale = locale;
 
-        setTitle("Menu Principal");
+        setTitle(Messages.labels().getString("label.TituloMenuPrincipal"));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 770, 379);
 
@@ -98,7 +98,7 @@ public class Menu_principal extends JFrame {
                         try {
                             ClientePartida cliente = new ClientePartida();
                             cliente.conectarServidor(ip, PORT);
-                            SwingUtilities.invokeLater(() -> new JuegoFrame(null, cliente, false, nombreUsuario));
+                            SwingUtilities.invokeLater(() -> new JuegoFrame(null, cliente, false, nombreUsuario, locale));
                         } catch (IOException ex) {
                             ex.printStackTrace();
                             JOptionPane.showMessageDialog(null,
@@ -122,7 +122,7 @@ public class Menu_principal extends JFrame {
             ConexionMySQL conexion = new ConexionMySQL();
             Connection conn = conexion.getCon();
 
-            Rankings rankingWindow = new Rankings(conn);
+            Rankings rankingWindow = new Rankings(conn, locale);
             rankingWindow.setVisible(true);
         });
         contentPane.add(btnRank);
@@ -153,7 +153,7 @@ public class Menu_principal extends JFrame {
 
                     SwingUtilities.invokeLater(() -> {
                         waitingDialog.dispose();
-                        new JuegoFrame(servidor, null, true, nombreUsuario);
+                        new JuegoFrame(servidor, null, true, nombreUsuario, locale);
                     });
                 } catch (IOException ex) {
                     ex.printStackTrace();

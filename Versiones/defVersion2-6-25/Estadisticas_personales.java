@@ -86,8 +86,7 @@ public class Estadisticas_personales extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		setTitle("Estadisticas Personales");
+		setTitle(Messages.labels().getString("label.TituloEstadisticasPersonales"));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
