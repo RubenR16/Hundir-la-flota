@@ -45,3 +45,23 @@ label.lblRanking=RANKING
 label.lblPosicion=Position
 label.lblUsuario=User
 label.lblPuntuacion=Score
+
+------------------------------------------
+JuegoFrame:
+
+label.tituloColocacion=(TRADUCIR Hundir la Flota - Colocación de Barcos)
+label.btnListo=(TRADUCIR ¡Listo para jugar!)
+label.msgTodosColocados= (TRADUCIR Todos los barcos colocados. ¡Haz clic en 'Listo para jugar!' cuando estés preparado!)
+label.msgFaltanBarcos=(TRADUCIR Debes colocar todos los barcos antes de continuar.)
+
+------------------------------------------
+ControlPanel:
+
+label.seleccionaBarco=Select a ship:
+label.barco5=5 Ship
+label.barco4=4 Ship
+label.barco3a=3 Ship (1)
+label.barco3b=3 Ship (2)
+label.barco2=2 Ship
+label.rotar=Rotate
+
