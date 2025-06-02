@@ -1,3 +1,5 @@
+USE hundir_la_flota;
+
 DELIMITER //
 
 CREATE PROCEDURE levantar_baneos_expirados()
