@@ -1,0 +1,37 @@
+label.lblUsuario=User:
+label.lblContrasenya=Password:
+button.btnRegistrarse=Register
+button.btnIniciarSesion=Login
+label.MenuIdiomas=Languaje
+
+------------------------------------------
+
+label.lblRUser=User:
+label.lblRContrasenya=Password:
+button.btnConfirmar=Confirm
+button.btnCancelar=Cancel
+label.lblBienvenido=Welcome
+label.lblCContrasenya=Confirm password:
+menuItem.espanyol=Spanish
+menuItem.ingles=English
+
+------------------------------------------
+
+button.btnStats=Personal stats
+button.btnReanudar=Resume Game
+button.btnBPartida=Join Game
+button.btnCPartida=Create Game
+button.btnRank=Leaderboard
+dialog.introduceIP=Enter the server IP
+dialog.esperandoTitulo=Waiting for players...
+dialog.tuIP=Your IP is
+dialog.esperandoMensaje=Waiting for a player to connect...
+button.aceptar=Accept
+button.cancelar=Cancel
+
+------------------------------------------
+
+label.lblPartidasJugadas=Played matches
+label.lblBarcosHundidos=Destroyed ships
+label.lblPuntos=Total points
+label.lblCasillasAgua=Water hits
