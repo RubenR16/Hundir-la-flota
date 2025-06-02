@@ -52,10 +52,10 @@ label.lblPuntuacion=Score
 ------------------------------------------
 JuegoFrame:
 
-label.tituloColocacion=(TRADUCIR Hundir la Flota - Colocación de Barcos)
-label.btnListo=(TRADUCIR ¡Listo para jugar!)
-label.msgTodosColocados= (TRADUCIR Todos los barcos colocados. ¡Haz clic en 'Listo para jugar!' cuando estés preparado!)
-label.msgFaltanBarcos=(TRADUCIR Debes colocar todos los barcos antes de continuar.)
+label.tituloColocacion=Battleship - Ship placement
+label.btnListo=Ready to play!
+label.msgTodosColocados= All ships in place. Click on Ready to play! When you are ready.
+label.msgFaltanBarcos=You must place all ships before continuing.
 
 ------------------------------------------
 ControlPanel:
@@ -67,4 +67,3 @@ label.barco3a=3 Ship (1)
 label.barco3b=3 Ship (2)
 label.barco2=2 Ship
 label.rotar=Rotate
-
