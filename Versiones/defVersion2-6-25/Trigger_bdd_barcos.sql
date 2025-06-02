@@ -1,3 +1,5 @@
+USE hundir_la_flota;
+
 DELIMITER //
 CREATE TRIGGER trg_banear_usuario
 AFTER UPDATE ON usuarios
