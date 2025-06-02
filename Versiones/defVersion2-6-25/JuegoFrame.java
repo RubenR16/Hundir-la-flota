@@ -68,14 +68,43 @@ public class JuegoFrame extends JFrame {
 
     public void todosLosBarcosColocados() {
         btnListo.setEnabled(true);
-        JOptionPane.showMessageDialog(this, Messages.labels().getString("label.msgTodosColocados"));
+
+        // Mostrar mensaje con botón personalizado traducible
+        Object[] options = {
+            Messages.labels().getString("button.aceptar")
+        };
+
+        JOptionPane.showOptionDialog(
+            this,
+            Messages.labels().getString("label.msgTodosColocados"),
+            Messages.labels().getString("label.tituloMensaje"),
+            JOptionPane.DEFAULT_OPTION,
+            JOptionPane.INFORMATION_MESSAGE,
+            null,
+            options,
+            options[0]
+        );
     }
 
     private void iniciarPartida() {
         List<Barco> barcosColocados = tableroPanel.getListaBarcos();
-        
+
         if (barcosColocados.size() != 5) {
-            JOptionPane.showMessageDialog(this, Messages.labels().getString("label.msgFaltanBarcos"));
+            // Mostrar mensaje de advertencia con botón traducible
+            Object[] options = {
+                Messages.labels().getString("button.aceptar")
+            };
+
+            JOptionPane.showOptionDialog(
+                this,
+                Messages.labels().getString("label.msgFaltanBarcos"),
+                Messages.labels().getString("label.tituloMensaje"),
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                options,
+                options[0]
+            );
             return;
         }
 
