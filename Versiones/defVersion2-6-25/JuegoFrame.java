@@ -2,8 +2,9 @@ package com.proyecto.hundir_la_flota;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
+import messages.Messages;
 
 public class JuegoFrame extends JFrame {
     private TableroPanel tableroPanel;
@@ -13,20 +14,25 @@ public class JuegoFrame extends JFrame {
     private boolean esServidor;
     private JButton btnListo;
     private String nombreUsuario;
+    private Locale locale;
 
     // Constructor original para compatibilidad
     public JuegoFrame() {
-        this(null, null, false, "");
+        this(null, null, false, "", Locale.getDefault());
     }
 
-    // Constructor con parámetros de red
-    public JuegoFrame(ServidorPartida servidor, ClientePartida cliente, boolean esServidor, String nombreUsuario) {
+    // Constructor con parámetros de red y locale
+    public JuegoFrame(ServidorPartida servidor, ClientePartida cliente, boolean esServidor, String nombreUsuario, Locale locale) {
         this.servidor = servidor;
         this.cliente = cliente;
         this.esServidor = esServidor;
         this.nombreUsuario = nombreUsuario;
-        
-        setTitle("Hundir la Flota - Colocación de Barcos");
+        this.locale = locale;
+
+        // Cargar el idioma
+        Messages.loadLocale(locale);
+
+        setTitle(Messages.labels().getString("label.tituloColocacion"));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new BorderLayout());
 
@@ -41,7 +47,7 @@ public class JuegoFrame extends JFrame {
         tableroPanel.setJuegoFrame(this);
 
         // Botón para confirmar que está listo
-        btnListo = new JButton("¡Listo para jugar!");
+        btnListo = new JButton(Messages.labels().getString("label.btnListo"));
         btnListo.setEnabled(false);
         btnListo.addActionListener(e -> iniciarPartida());
 
@@ -62,14 +68,14 @@ public class JuegoFrame extends JFrame {
 
     public void todosLosBarcosColocados() {
         btnListo.setEnabled(true);
-        JOptionPane.showMessageDialog(this, "Todos los barcos colocados. ¡Haz clic en 'Listo para jugar!' cuando estés preparado!");
+        JOptionPane.showMessageDialog(this, Messages.labels().getString("label.msgTodosColocados"));
     }
 
     private void iniciarPartida() {
         List<Barco> barcosColocados = tableroPanel.getListaBarcos();
         
         if (barcosColocados.size() != 5) {
-            JOptionPane.showMessageDialog(this, "Debes colocar todos los barcos antes de continuar.");
+            JOptionPane.showMessageDialog(this, Messages.labels().getString("label.msgFaltanBarcos"));
             return;
         }
 
@@ -78,12 +84,12 @@ public class JuegoFrame extends JFrame {
 
         // Crear y mostrar PartidaFrame
         SwingUtilities.invokeLater(() -> {
-            PartidaFrame partidaFrame = new PartidaFrame(barcosColocados, esServidor, servidor, cliente, nombreUsuario);
+            PartidaFrame partidaFrame = new PartidaFrame(barcosColocados, esServidor, servidor, cliente, nombreUsuario, locale);
             partidaFrame.setVisible(true);
         });
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(JuegoFrame::new);
+        SwingUtilities.invokeLater(() -> new JuegoFrame(null, null, false, "", Locale.getDefault()));
     }
 }
