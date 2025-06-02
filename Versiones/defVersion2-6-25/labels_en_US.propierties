@@ -16,6 +16,7 @@ menuItem.espanyol=Spanish
 menuItem.ingles=English
 
 ------------------------------------------
+Menu:
 
 button.btnStats=Personal stats
 button.btnReanudar=Resume Game
@@ -30,6 +31,7 @@ button.aceptar=Accept
 button.cancelar=Cancel
 
 ------------------------------------------
+EstadísticasPers:
 
 label.lblPartidasJugadas=Played matches
 label.lblBarcosHundidos=Destroyed ships
@@ -37,7 +39,7 @@ label.lblPuntos=Total points
 label.lblCasillasAgua=Water hits
 
 ------------------------------------------
-RANKING:
+Ranking:
 
 label.lblRanking=RANKING
 label.lblPosicion=Position
