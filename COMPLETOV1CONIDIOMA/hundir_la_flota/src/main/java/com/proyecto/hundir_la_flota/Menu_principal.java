@@ -28,7 +28,6 @@ public class Menu_principal extends JFrame {
     private JPanel contentPane;
     private final static int PORT = 5005;
 
-    private JButton btnReanudar;
     private JButton btnBPartida;
     private JButton btnCPartida;
     private JButton btnRank;
@@ -52,24 +51,16 @@ public class Menu_principal extends JFrame {
 
         // Botón Stats personales
         btnStats = new JButton();
-        btnStats.setBounds(272, 147, 204, 21);
+        btnStats.setBounds(272, 110, 204, 21);
         btnStats.addActionListener(e -> {
             Estadisticas_personales statsWindow = new Estadisticas_personales(nombreUsuario, currentLocale);
             statsWindow.setVisible(true);
         });
         contentPane.add(btnStats);
 
-        // Botón Reanudar
-        btnReanudar = new JButton();
-        btnReanudar.setBounds(272, 114, 204, 21);
-        btnReanudar.addActionListener(e -> {
-            // Implementar acción de reanudar partida
-        });
-        contentPane.add(btnReanudar);
-
         // Botón Buscar partida (con diálogo IP)
         btnBPartida = new JButton();
-        btnBPartida.setBounds(272, 81, 204, 21);
+        btnBPartida.setBounds(272, 80, 204, 21);
         btnBPartida.addActionListener(e -> {
             JTextField ipField = new JTextField();
             Object[] message = {
@@ -117,7 +108,7 @@ public class Menu_principal extends JFrame {
 
         // Botón Ranking
         btnRank = new JButton();
-        btnRank.setBounds(272, 180, 204, 21);
+        btnRank.setBounds(272, 140, 204, 21);
         btnRank.addActionListener(e -> {
             ConexionMySQL conexion = new ConexionMySQL();
             Connection conn = conexion.getCon();
@@ -129,7 +120,7 @@ public class Menu_principal extends JFrame {
 
         // Botón Crear partida
         btnCPartida = new JButton();
-        btnCPartida.setBounds(272, 48, 204, 21);
+        btnCPartida.setBounds(272, 50, 204, 21);
         btnCPartida.addActionListener(e -> {
             JDialog waitingDialog = new JDialog();
             waitingDialog.setTitle(Messages.labels().getString("dialog.esperandoTitulo"));
@@ -173,7 +164,6 @@ public class Menu_principal extends JFrame {
     private void switchLanguage(Locale locale) {
         Messages.loadLocale(locale);
         btnStats.setText(Messages.labels().getString("button.btnStats"));
-        btnReanudar.setText(Messages.labels().getString("button.btnReanudar"));
         btnBPartida.setText(Messages.labels().getString("button.btnBPartida"));
         btnCPartida.setText(Messages.labels().getString("button.btnCPartida"));
         btnRank.setText(Messages.labels().getString("button.btnRank"));
