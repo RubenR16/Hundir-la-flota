@@ -83,7 +83,7 @@ public class Inicio_sesion extends JDialog {
 	 */
 	public Inicio_sesion(JFrame Menu_principal) {
 		
-		setTitle(Messages.labels().getString("label.TituloIniciarSesion"));
+		setTitle("Iniciar Sesión");
 		
 		ConexionMySQL c = new ConexionMySQL();
 		
@@ -196,7 +196,19 @@ public class Inicio_sesion extends JDialog {
 								
 								boolean estaBaneado = rs.getBoolean("baneado");
 			                    if (estaBaneado) {
-			                        JOptionPane.showMessageDialog(contentPane, Messages.errors().getString("error.banned"),"BANEADO",JOptionPane.ERROR_MESSAGE);
+			                    	Object[] options = {
+			                    		Messages.labels().getString("button.aceptar")
+			                    	};
+			                    	JOptionPane.showOptionDialog(
+			                    		contentPane,
+			                    		Messages.errors().getString("error.banned"),
+			                    		"BANEADO",
+			                    		JOptionPane.DEFAULT_OPTION,
+			                    		JOptionPane.ERROR_MESSAGE,
+			                    		null,
+			                    		options,
+			                    		options[0]
+			                    	);
 			                        return;
 			                    }
 								
@@ -205,8 +217,19 @@ public class Inicio_sesion extends JDialog {
 						
 					//NO EXISTE EL USUARIO = ERROR
 					if(!existe) {
-					
-						JOptionPane.showMessageDialog(contentPane,Messages.errors().getString("error.userNExist"),"Error",JOptionPane.ERROR_MESSAGE);
+						Object[] options = {
+							Messages.labels().getString("button.aceptar")
+						};
+						JOptionPane.showOptionDialog(
+							contentPane,
+							Messages.errors().getString("error.userNExist"),
+							"Error",
+							JOptionPane.DEFAULT_OPTION,
+							JOptionPane.ERROR_MESSAGE,
+							null,
+							options,
+							options[0]
+						);
 					}else if(coincidepasswd){ //SI EXISTE EL USUARIO COMPRUEBA QUE COINCIDA LA PASSWORD Y INICIA SESIÓN
 						sesionIniciada = true;
 						Menu_principal menu = new Menu_principal(textFieldUsuario.getText(), currentLocale);
@@ -214,8 +237,19 @@ public class Inicio_sesion extends JDialog {
 						dispose();
 						
 					}else { // SI NO COICIDE LA PASSWORD SALTA MENSAJITO ERROR
-					
-						JOptionPane.showMessageDialog(contentPane,Messages.errors().getString("error.wrongPswd"),"Error",JOptionPane.ERROR_MESSAGE);
+						Object[] options = {
+							Messages.labels().getString("button.aceptar")
+						};
+						JOptionPane.showOptionDialog(
+							contentPane,
+							Messages.errors().getString("error.wrongPswd"),
+							"Error",
+							JOptionPane.DEFAULT_OPTION,
+							JOptionPane.ERROR_MESSAGE,
+							null,
+							options,
+							options[0]
+						);
 	
 					}
 					
