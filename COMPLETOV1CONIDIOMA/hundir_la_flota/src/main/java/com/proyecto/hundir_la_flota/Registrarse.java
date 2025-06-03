@@ -68,7 +68,7 @@ public class Registrarse extends JDialog {
 		ConexionMySQL c = new ConexionMySQL();
 		con= c.getCon();		
 		
-		setTitle(Messages.labels().getString("label.TituloRegistrarse"));
+		setTitle("Registrarse");
 		setBounds(100, 100, 830, 482);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -123,19 +123,56 @@ public class Registrarse extends JDialog {
 
 
 					if (rs.getInt(1) > 0) {
-						JOptionPane.showMessageDialog(contentPane, Messages.errors().getString("error.alreadyExist"), "Error", JOptionPane.ERROR_MESSAGE);
+						// Mostrar mensaje de error con botón traducible
+						Object[] options = {
+							Messages.labels().getString("button.aceptar")
+						};
+						JOptionPane.showOptionDialog(
+							contentPane,
+							Messages.errors().getString("error.alreadyExist"),
+							"Error",
+							JOptionPane.DEFAULT_OPTION,
+							JOptionPane.ERROR_MESSAGE,
+							null,
+							options,
+							options[0]
+						);
 						return;
 					}
 					
 					if(textFieldUsuario.getText().length() > 20) {
-						JOptionPane.showMessageDialog(contentPane,Messages.errors().getString("error.userContainMax20Char"), "Error", JOptionPane.ERROR_MESSAGE);
+						Object[] options = {
+							Messages.labels().getString("button.aceptar")
+						};
+						JOptionPane.showOptionDialog(
+							contentPane,
+							Messages.errors().getString("error.userContainMax20Char"),
+							"Error",
+							JOptionPane.DEFAULT_OPTION,
+							JOptionPane.ERROR_MESSAGE,
+							null,
+							options,
+							options[0]
+						);
 						return;
 					}
 				
 					
 
 					if (textFieldUsuario.getText().isEmpty()) {
-						JOptionPane.showMessageDialog(contentPane,Messages.errors().getString("error.userEmpty"), "Error", JOptionPane.ERROR_MESSAGE);
+						Object[] options = {
+							Messages.labels().getString("button.aceptar")
+						};
+						JOptionPane.showOptionDialog(
+							contentPane,
+							Messages.errors().getString("error.userEmpty"),
+							"Error",
+							JOptionPane.DEFAULT_OPTION,
+							JOptionPane.ERROR_MESSAGE,
+							null,
+							options,
+							options[0]
+						);
 						return;
 
 
@@ -143,18 +180,54 @@ public class Registrarse extends JDialog {
 						stmt.setString(1,textFieldUsuario.getText());
 
 						if (contraseña.isEmpty()) {
-							JOptionPane.showMessageDialog(contentPane,Messages.errors().getString("error.pswdEmpty"), "Error", JOptionPane.ERROR_MESSAGE);
+							Object[] options = {
+								Messages.labels().getString("button.aceptar")
+							};
+							JOptionPane.showOptionDialog(
+								contentPane,
+								Messages.errors().getString("error.pswdEmpty"),
+								"Error",
+								JOptionPane.DEFAULT_OPTION,
+								JOptionPane.ERROR_MESSAGE,
+								null,
+								options,
+								options[0]
+							);
 							return;
    
 						} else {
 							stmt.setString(2,contraseña);}
 
 						if (confirmar.isEmpty()) {
-							JOptionPane.showMessageDialog(contentPane,Messages.errors().getString("error.pswdConfirm"), "Error", JOptionPane.ERROR_MESSAGE);
+							Object[] options = {
+								Messages.labels().getString("button.aceptar")
+							};
+							JOptionPane.showOptionDialog(
+								contentPane,
+								Messages.errors().getString("error.pswdConfirm"),
+								"Error",
+								JOptionPane.DEFAULT_OPTION,
+								JOptionPane.ERROR_MESSAGE,
+								null,
+								options,
+								options[0]
+							);
 							return;
 
 						} else if (!confirmar.equals(contraseña)) {
-							JOptionPane.showMessageDialog(contentPane,Messages.errors().getString("error.pswdNotEqual"), "Error", JOptionPane.ERROR_MESSAGE);
+							Object[] options = {
+								Messages.labels().getString("button.aceptar")
+							};
+							JOptionPane.showOptionDialog(
+								contentPane,
+								Messages.errors().getString("error.pswdNotEqual"),
+								"Error",
+								JOptionPane.DEFAULT_OPTION,
+								JOptionPane.ERROR_MESSAGE,
+								null,
+								options,
+								options[0]
+							);
 							return;
 						}
 
