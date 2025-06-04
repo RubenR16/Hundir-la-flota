@@ -1,0 +1,99 @@
+
+//Creación de documento en MongoDB
+mongoConnection.crearDocumentoPartida(idPartida, nombreUsuario, nombreOponente);
+
+//Guarda el mensaje de chat en MongoDB
+mongoConnection.agregarEventoChat(idPartida, nombreOponente, mensajeChat);
+
+//Guarda movimiento en MongoDB
+mongoConnection.agregarEventoMovimiento(idPartida, nombreOponente, casilla, resultado);
+
+//Guarda evento de barco hundido en MongoDB
+mongoConnection.agregarEventoBarcoHundido(idPartida, nombreOponente, casilla, barcoTocado.tamaño);
+
+//Guarda los movimientos "acierto" en MongoDB
+mongoConnection.agregarEventoMovimiento(idPartida, nombreUsuario, casilla, "acierto");
+
+//Guarda los movimientos "agua" en MongoDB
+mongoConnection.agregarEventoMovimiento(idPartida, nombreUsuario, casilla, "agua");
+
+//Cierra conexión con MongoDB
+mongoConnection.cerrarConexion();
+
+
+
+//mongoConnection.crearDocumentoPartida
+
+Document partidaDoc = new Document("id_partida", idPartida.toString())
+                    .append("usuario_1", usuario1)
+                    .append("usuario_2", usuario2)
+                    .append("fecha_inicio", LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
+                    .append("eventos", new ArrayList<Document>());
+
+            collection.insertOne(partidaDoc);
+
+//mongoConnection.agregarEventoChat
+
+Document eventoChat = new Document("tipo", "chat")
+                    .append("hora", LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
+                    .append("jugador", jugador)
+                    .append("mensaje", mensaje);
+
+            Document filtro = new Document("id_partida", idPartida.toString());
+            Document actualizacion = new Document("$push", new Document("eventos", eventoChat));
+
+            collection.updateOne(filtro, actualizacion);
+
+//mongoConnection.agregarEventoMovimiento
+
+Document eventoMovimiento = new Document("tipo", "movimiento")
+                    .append("hora", LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
+                    .append("jugador", jugador)
+                    .append("casilla", casilla)
+                    .append("resultado", resultado);
+
+            Document filtro = new Document("id_partida", idPartida.toString());
+            Document actualizacion = new Document("$push", new Document("eventos", eventoMovimiento));
+
+            collection.updateOne(filtro, actualizacion);
+
+//mongoConnection.agregarEventoBarcoHundido
+
+Document eventoHundido = new Document("tipo", "barco_hundido")
+                    .append("hora", LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
+                    .append("jugador", jugador)
+                    .append("casilla", casilla)
+                    .append("tamaño_barco", tamañoBarco);
+
+            Document filtro = new Document("id_partida", idPartida.toString());
+            Document actualizacion = new Document("$push", new Document("eventos", eventoHundido));
+
+            collection.updateOne(filtro, actualizacion);
+
+
+
+// Ejemplo de los campos de un registro del chat.
+
+{
+  "_id": {
+    "$oid": "683edf946982c05010772c8b"
+  },
+  "id_partida": "18",
+  "usuario_1": "Andrea Pro",
+  "usuario_2": "RubenR0",
+  "fecha_inicio": "2025-06-03T13:42:12.814533552",
+  "eventos": [
+    {
+      "tipo": "chat",
+      "hora": "2025-06-03T13:42:14.51711754",
+      "jugador": "RubenR0",
+      "mensaje": "hola"
+    },
+    {
+      "tipo": "movimiento",
+      "hora": "2025-06-03T13:42:19.694853161",
+      "jugador": "Andrea Pro",
+      "casilla": "E3",
+      "resultado": "agua"
+    }
+}
