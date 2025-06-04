@@ -1,0 +1,73 @@
+//Estos códigos están en las clases java.
+//Cualquier condición que requiera este código está en dichos javas.
+
+------------------------------------------------------------------------------------
+
+* Registrarse:
+
+//Insertar usuarios nuevos
+
+INSERT INTO usuarios (nombre_usuario, password_usuario) VALUES (?, ?)
+
+// Para comprobar si ya está el usuario en la base de datos
+
+SELECT COUNT(*) FROM usuarios WHERE nombre_usuario = ?
+
+------------------------------------------------------------------------------------
+
+* Inicio_sesion:
+
+// Ejecutar procedimiento para levantar baneos expirados
+// El procedimiento está en Procedure_bdd_barcos
+
+CALL levantar_baneos_expirados()
+
+// Comprueba si existe el usuario en la base de datos
+select * from usuarios where nombre_usuario = ?
+
+------------------------------------------------------------------------------------
+
+* Estadisticas_personales:
+// Muestra las estadísticas personales del usuario que inició sesión.
+
+// Muestra por pantalla el total de partidas jugadas.
+select partidas_jugadas from usuarios where nombre_usuario = ?
+
+// Muestra por pantalla el total de partidas ganadas del usuario.
+select count(*) from partidas where ganador = ?
+
+// Muestra por pantalla el total de barcos hundidos.
+select barcos_hundidos from usuarios where nombre_usuario = ?
+
+// Muestra por pantalla los puntos totales.
+select puntos_totales from usuarios where nombre_usuario = ?
+
+// Muestra por pantalla el total de casillas de agua golpeadas.
+select casillas_agua_golpeadas from usuarios where nombre_usuario = ?
+
+------------------------------------------------------------------------------------
+
+* Rankings:
+
+// Si el usuario está baneado, no los muestra.
+// Obtiene los 10 nombres de usuario + sus puntos totales con más puntos.
+
+SELECT nombre_usuario, puntos_totales FROM usuarios WHERE baneado = 0 ORDER BY puntos_totales DESC LIMIT 10
+
+------------------------------------------------------------------------------------
+
+* PartidaFrame:
+
+// Cuando inicia la partida inserta en la tabla partidas los usuarios y la fecha de inició.
+INSERT INTO partidas (usuario_1, usuario_2, fecha_inicio) VALUES (?, ?, ?)
+
+// Una vez acabado la partida se actualiza la tabla partidas con la fecha fin y el ganador de la partida.
+UPDATE partidas SET fecha_fin = ?, ganador = ? WHERE id_partida = ?
+
+// Cuando acaba la partida actualiza las estadísticas personales del usuario.
+UPDATE usuarios SET " + "partidas_jugadas = partidas_jugadas + 1, " +"barcos_hundidos = barcos_hundidos + ?, " + "puntos_totales = puntos_totales + ?, " + "casillas_agua_golpeadas = casillas_agua_golpeadas + ? " + "WHERE nombre_usuario = ?
+
+// Verifica si la partida ya tiene ganador.
+SELECT ganador FROM partidas WHERE id_partida = ?
+
+
