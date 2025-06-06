@@ -51,6 +51,7 @@ public class Menu_principal extends JFrame {
         contentPane.setBackground(new Color(238, 238, 238));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         contentPane.setLayout(null);
+        setResizable(false);
         setContentPane(contentPane);
 
         // Botón Stats personales
