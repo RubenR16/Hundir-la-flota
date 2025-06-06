@@ -22,6 +22,7 @@ import java.sql.Connection;
 import java.util.Locale;
 import java.awt.event.ActionEvent;
 import javax.swing.UIManager;
+import java.awt.Color;
 
 public class Menu_principal extends JFrame {
 
@@ -47,7 +48,7 @@ public class Menu_principal extends JFrame {
         setBounds(100, 100, 770, 379);
 
         contentPane = new JPanel();
-        contentPane.setBackground(UIManager.getColor("CheckBoxMenuItem.acceleratorForeground"));
+        contentPane.setBackground(new Color(238, 238, 238));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         contentPane.setLayout(null);
         setContentPane(contentPane);
